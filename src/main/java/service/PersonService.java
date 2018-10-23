@@ -2,6 +2,7 @@ package service;
 
 import entity.Person;
 
+import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,7 +30,7 @@ public class PersonService {
 
     @Path("insert")
     @POST
-    public void insert(Person person) {
+    public void insert(Person person) throws IOException {
         Repository repo = Repository.getInstance();
         repo.insert(person);
         findAll();
@@ -37,7 +38,7 @@ public class PersonService {
 
     @DELETE
     @Path("delete/{id}")
-    public void delete(@PathParam("id") int id) {
+    public void delete(@PathParam("id") int id) throws IOException {
         Repository repo = Repository.getInstance();
         repo.delete(id);
     }
@@ -51,7 +52,7 @@ public class PersonService {
 
     @POST
     @Path("update/{id}")
-    public void update(@PathParam("id") int id, Person person) {
+    public void update(@PathParam("id") int id, Person person) throws IOException {
         Repository repo = Repository.getInstance();
         repo.update(person, id);
     }

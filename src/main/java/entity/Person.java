@@ -3,19 +3,18 @@ package entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
  * @author H. Lackinger
  */
 @XmlRootElement
 public class Person {
-    private int      id;
-    private String   firstname;
-    private String   lastname;
-    private String   gender;
-    private String   email;
-    private String   country;
-    private int      age;
-    private boolean  registered;
+    private int id;
+    private String firstname;
+    private String lastname;
+    private String gender;
+    private String email;
+    private String country;
+    private int age;
+    private boolean registered;
 
     public Person() {
     }
@@ -32,7 +31,6 @@ public class Person {
     }
 
 
-          
     public int getId() {
         return id;
     }
@@ -97,5 +95,9 @@ public class Person {
         this.age = age;
     }
 
-    
+    public String writeable() {
+        return this.id + ";" + this.firstname + ";" + this.lastname + ";" + this.gender + ";" + this.email + ";" + this.country + ";" + this.age + ";" + this.registered+"\n";
+    }
+
+
 }

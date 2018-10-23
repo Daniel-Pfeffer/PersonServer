@@ -2,10 +2,12 @@ package repository;
 
 import entity.Person;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class Repository {
 
     // Person Collection
     LinkedList<Person> persons = new LinkedList<>();
+    private Path path = Paths.get("rest.csv");
 
     private Repository() {
         loadFromFile();
@@ -37,7 +40,7 @@ public class Repository {
 
     public void loadFromFile() {
         try {
-            List<String> lines = Files.readAllLines(Paths.get("rest.csv"));
+            List<String> lines = Files.readAllLines(path);
 
             for (String line : lines) {
 
@@ -64,10 +67,12 @@ public class Repository {
 
     public void insert(Person person) {
         persons.add(person);
+        writeFile();
     }
 
     public void delete(int id) {
-        persons.stream().filter(person -> person.getId() == id).forEach(person -> persons.remove(person));
+        persons.removeIf(person -> person.getId() == id);
+        writeFile();
     }
 
     public void restart() {
@@ -85,8 +90,28 @@ public class Repository {
         if (personToChange != null) {
             personToChange.setFirstname(person.getFirstname());
             personToChange.setLastname(person.getLastname());
+            writeFile();
             return personToChange;
         }
         return null;
+    }
+
+    private void writeFile() {
+        try {
+            Files.write(path,"".getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try(BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))){
+            persons.forEach(person -> {
+                try {
+                    writer.write(person.writeable());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
