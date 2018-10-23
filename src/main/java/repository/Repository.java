@@ -97,11 +97,6 @@ public class Repository {
     }
 
     private void writeFile() {
-        try {
-            Files.write(path,"".getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         try(BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))){
             persons.forEach(person -> {
                 try {
