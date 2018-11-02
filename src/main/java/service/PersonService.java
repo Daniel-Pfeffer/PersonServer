@@ -12,15 +12,6 @@ import repository.Repository;
 @Path("persons")
 public class PersonService {
 
-
-    // Show message 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("message")
-    public String message() {
-        return " Hello REST Service powered by Java SE ";
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("findAll")
@@ -30,7 +21,7 @@ public class PersonService {
 
     @Path("insert")
     @POST
-    public void insert(Person person) throws IOException {
+    public void insert(Person person) {
         Repository repo = Repository.getInstance();
         repo.insert(person);
         findAll();
@@ -38,7 +29,7 @@ public class PersonService {
 
     @DELETE
     @Path("delete/{id}")
-    public void delete(@PathParam("id") int id) throws IOException {
+    public void delete(@PathParam("id") int id) {
         Repository repo = Repository.getInstance();
         repo.delete(id);
     }
@@ -57,5 +48,18 @@ public class PersonService {
         repo.update(person, id);
     }
 
+    @GET
+    @Path("find")
+    public List<Person> find(@QueryParam("page") int page, @QueryParam("size") int size){
+        Repository repo = Repository.getInstance();
+        return repo.find(page, size);
+    }
+
+    @GET
+    @Path("count")
+    public int count(){
+        Repository repo = Repository.getInstance();
+        return repo.count();
+    }
 
 }

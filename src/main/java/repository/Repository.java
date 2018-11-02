@@ -98,11 +98,11 @@ public class Repository {
 
     private void writeFile() {
         try {
-            Files.write(path,"".getBytes());
+            Files.write(path, "".getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try(BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))){
+        try (BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))) {
             persons.forEach(person -> {
                 try {
                     writer.write(person.writeable());
@@ -113,5 +113,16 @@ public class Repository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Person> find(int page, int size) {
+        int first = (page - 1) * size;
+        int last = page * size - 1;
+        if (last > persons.size()) last = persons.size();
+        return  persons.subList(first, last);
+    }
+
+    public int count() {
+        return persons.size();
     }
 }
